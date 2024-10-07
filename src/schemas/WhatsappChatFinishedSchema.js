@@ -1,0 +1,210 @@
+const ChatHistorySchema = {
+    _id: "VARCHAR(255) PRIMARY KEY",
+    id: "VARCHAR(500)",
+    protocol_number: "VARCHAR(255)",
+    contact_id: "INT",
+    contact_name: "VARCHAR(255)",
+    contact_name_alias: "VARCHAR(255)",
+    contact_image: "VARCHAR(255)",
+    contact_is_blocked: "BIT",
+    contact_company_id: "INT",
+    contact_number: "VARCHAR(255)",
+    contact_whatsapp_id: "VARCHAR(255)",
+    instance_id: "VARCHAR(255)",
+    instance_name: "VARCHAR(255)",
+    instance_team_id: "INT",
+    instance_company_id: "INT",
+    instance_group_channel_id: "INT",
+    instance_status: "VARCHAR(255)",
+    instance_type: "VARCHAR(255)",
+    instance_phone: "VARCHAR(255)",
+    team_id: "INT",
+    last_message: "VARCHAR(MAX)",
+    last_message_body: "VARCHAR(MAX)",
+    last_message_type: "VARCHAR(255)",
+    last_message_date: "BIGINT",
+    last_message_send_by_me: "BIT",
+    internal_message_client_initiated_chat: "BIT",
+    internal_message_agent_name: "VARCHAR(255)",
+    internal_message_message: "VARCHAR(MAX)",
+    agent_id: "INT",
+    agent_first_answered_at: "BIGINT",
+    unread: "INT",
+    quantity_of_messages: "INT",
+    finished: "BIT",
+    type: "VARCHAR(255)",
+    fromMe: "BIT",
+    time: "BIGINT",
+    oldest_unanswered_message_date: "VARCHAR(255)",
+    is_group: "BIT",
+    most_older_unanswered_message: "VARCHAR(255)",
+    most_older_received_message: "VARCHAR(255)",
+    transferred: "BIT",
+    lag_to_response_response_is_late: "BIT",
+    lag_to_response_late_since: "DATETIME",
+    lag_to_response_max_time_to_be_answer: "INT",
+    queue_response_is_late_response_is_late: "BIT",
+    queue_response_is_late_late_since: "DATETIME",
+    queue_response_is_late_max_time_waiting_agent_answer: "INT",
+    waba_message_received_sended_message_template: "BIT",
+    waba_message_received_message_received: "BIT",
+    waba_message_received_end_message_cycle: "DATETIME",
+    chatbot_id: "INT",
+    chatbot_is_active: "BIT",
+    chatbot_last_action_id: "INT",
+    chatbot_start_chatbot: "BIGINT",
+    chatbot_end_chatbot: "BIGINT",
+    chatbot_sdr_assistant_id: "INT",
+    chatbot_sdr_thread_id: "INT",
+    chatbot_sdr_run_id: "INT",
+    chatbot_sdr_in_progress: "BIT",
+    updated_at: "DATETIME",
+    created_at: "DATETIME",
+    end_snooze: "DATETIME",
+    in_snooze: "BIT",
+    check_ack_job_scheduled: "BIT",
+    message_from: "VARCHAR(255)",
+    automatic_finalization: "BIT",
+    queue_start: "DATETIME",
+    team_name: "VARCHAR(255)",
+    group_channel_name: "VARCHAR(255)",
+    qualification_id: "INT",
+    qualification_name: "VARCHAR(255)",
+    qualification_color: "VARCHAR(255)",
+    qualification_list_id: "INT",
+    finished_at: "BIGINT",
+    total_time: "INT",
+};
+
+const ChatHistoryMap = (eventData, provider) => {
+    const chat = eventData.chat || {};
+    const contact = chat.contact || {};
+    const instance = chat.instance || {};
+    const lastMessageData = chat.last_message_data || {};
+    const internalMessage = chat.internal_message || {};
+    const lagToResponse = chat.lag_to_response || {};
+    const queueResponseIsLate = chat.queue_response_is_late || {};
+    const wabaMessageReceived = chat.waba_message_received || {};
+    const chatbot = chat.chatbot || {};
+    const chatDetails = eventData.chatDetails || {};
+    const qualification = chatDetails.qualification || {};
+
+    let mappedField = {
+        _id: chat._id || null,
+        id: chat.id || null,
+        protocol_number: chat.protocol_number || null,
+        contact_id: contact.id || null,
+        contact_name: contact.name || null,
+        contact_name_alias: contact.name_alias || null,
+        contact_image: contact.image || null,
+        contact_is_blocked: contact.is_blocked || null,
+        contact_company_id: contact.company_id || null,
+        contact_number: contact.number || null,
+        contact_whatsapp_id: contact.whatsapp_id || null,
+        instance_id: instance.id || null,
+        instance_name: instance.name || null,
+        instance_team_id: instance.team_id || null,
+        instance_company_id: instance.company_id || null,
+        instance_group_channel_id: instance.group_channel_id || null,
+        instance_status: instance.status || null,
+        instance_type: instance.type || null,
+        instance_phone: instance.phone || null,
+        team_id: chat.team_id || null,
+        last_message: chat.last_message || null,
+        last_message_body: lastMessageData.body || null,
+        last_message_type: lastMessageData.type || null,
+        last_message_date: lastMessageData.date || null,
+        last_message_send_by_me: lastMessageData.send_by_me || null,
+        internal_message_client_initiated_chat: internalMessage.client_initiated_chat || null,
+        internal_message_agent_name: internalMessage.agent_name || null,
+        internal_message_message: internalMessage.message || null,
+        agent_id: chat.agent_id || null,
+        agent_first_answered_at: chat.agent_first_answered_at || null,
+        unread: chat.unread || null,
+        quantity_of_messages: chat.quantity_of_messages || null,
+        finished: chat.finished || null,
+        type: chat.type || null,
+        fromMe: chat.fromMe,
+        time: chat.time || null,
+        oldest_unanswered_message_date: chat.oldest_unanswered_message_date || null,
+        is_group: chat.is_group || null,
+        most_older_unanswered_message: chat.most_older_unanswered_message || null,
+        most_older_received_message: chat.most_older_received_message || null,
+        transferred: chat.transferred || null,
+        lag_to_response_response_is_late: lagToResponse.response_is_late || null,
+        lag_to_response_late_since: lagToResponse.late_since ? formatDateForProvider(lagToResponse.late_since, provider) : null,
+        lag_to_response_max_time_to_be_answer: lagToResponse.max_time_to_be_answer || null,
+        queue_response_is_late_response_is_late: queueResponseIsLate.response_is_late || null,
+        queue_response_is_late_late_since: queueResponseIsLate.late_since ? formatDateForProvider(queueResponseIsLate.late_since, provider) : null,
+        queue_response_is_late_max_time_waiting_agent_answer: queueResponseIsLate.max_time_waiting_agent_answer || null,
+        waba_message_received_sended_message_template: wabaMessageReceived.sended_message_template || null,
+        waba_message_received_message_received: wabaMessageReceived.message_received || null,
+        waba_message_received_end_message_cycle: wabaMessageReceived.end_message_cycle ? formatDateForProvider(wabaMessageReceived.end_message_cycle, provider) : null,
+        chatbot_id: chatbot.id || null,
+        chatbot_is_active: chatbot.is_active || null,
+        chatbot_last_action_id: chatbot.last_action_id || null,
+        chatbot_start_chatbot: chatbot.start_chatbot || null,
+        chatbot_end_chatbot: chatbot.end_chatbot || null,
+        chatbot_sdr_assistant_id: chatbot.sdr.assistant_id || null,
+        chatbot_sdr_thread_id: chatbot.sdr.thread_id || null,
+        chatbot_sdr_run_id: chatbot.sdr.run_id || null,
+        chatbot_sdr_in_progress: chatbot.sdr.in_progress || null,
+        updated_at: chat.updated_at ? formatDateForProvider(chat.updated_at, provider) : null,
+        created_at: chat.created_at ? formatDateForProvider(chat.created_at, provider) : null,
+        end_snooze: chat.end_snooze ? formatDateForProvider(chat.end_snooze, provider) : null,
+        in_snooze: chat.in_snooze || null,
+        check_ack_job_scheduled: chat.check_ack_job_scheduled || null,
+        message_from: chat.message_from || null,
+        automatic_finalization: chat.automatic_finalization || null,
+        queue_start: chatDetails.queue_start ? formatDateForProvider(chatDetails.queue_start, provider) : null,
+        team_name: chatDetails.team_name || null,
+        group_channel_name: chatDetails.group_channel_name || null,
+        qualification_id: qualification.id || null,
+        qualification_name: qualification.name || null,
+        qualification_color: qualification.color || null,
+        qualification_list_id: qualification.list_id || null,
+        finished_at: chatDetails.finished_at ?? null,
+        total_time: chatDetails.total_time || null,
+    };
+
+    if (provider === 'sqlserver') {
+      mappedField = {
+          ...mappedField,
+          contact_is_blocked: mappedField.contact_is_blocked ? 1 : 0,
+          last_message_send_by_me: mappedField.last_message_send_by_me ? 1 : 0,
+          internal_message_client_initiated_chat: mappedField.internal_message_client_initiated_chat ? 1 : 0,
+          finished: mappedField.finished ? 1 : 0,
+          fromMe: mappedField.fromMe ? 1 : 0,
+          is_group: mappedField.is_group ? 1 : 0,
+          transferred: mappedField.transferred ? 1 : 0,
+          lag_to_response_response_is_late: mappedField.lag_to_response_response_is_late ? 1 : 0,
+          queue_response_is_late_response_is_late: mappedField.queue_response_is_late_response_is_late ? 1 : 0,
+          waba_message_received_sended_message_template: mappedField.waba_message_received_sended_message_template ? 1 : 0,
+          waba_message_received_message_received: mappedField.waba_message_received_message_received ? 1 : 0,
+          chatbot_is_active: mappedField.chatbot_is_active ? 1 : 0,
+          chatbot_sdr_in_progress: mappedField.chatbot_sdr_in_progress ? 1 : 0,
+          in_snooze: mappedField.in_snooze ? 1 : 0,
+          check_ack_job_scheduled: mappedField.check_ack_job_scheduled ? 1 : 0,
+          automatic_finalization: mappedField.automatic_finalization ? 1 : 0,
+      };
+    }
+
+    return mappedField;
+};
+
+function formatDateForProvider(date, provider) {
+  if (!date) return null;
+
+  let formattedDate = new Date(date).toISOString();
+  if (provider === 'mysql') {
+      return formattedDate.slice(0, 19).replace('T', ' ');
+  }
+
+  return formattedDate;
+}
+
+
+module.exports = {
+  ChatHistorySchema,
+  ChatHistoryMap,
+};

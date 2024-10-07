@@ -1,0 +1,21 @@
+{
+    "SOCKET_SERVER": "https://socket.3c.fluxoti.com",
+    "SOCKET_TOKEN": "XXX",
+    "COMPANY_ID": 1,
+    "COMPANY_DOMAIN": "dominio",
+    "BATCH_SIZE": 1,
+    "DB_PROVIDER": "sqlserver",
+    "DB_HOST": "localhost",
+    "DB_PORT": 1433,
+    "DB_USER": "sa",
+    "DB_PASSWORD": "my_P@ssword357",
+    "DB_NAME": "3cplus",
+    "DB_SCHEMA": "public",
+    "REDIS_HOST": "localhost",
+    "REDIS_PORT": 6379,
+    "READONLY_USER": "client_readonly",
+    "READONLY_PASSWORD": "99_password",
+    "SOCKET_EVENT_ENABLED": "call_history,work_break_history,login_history,chat_history",
+    "IGNORE_SETUP": false
+}
+  
