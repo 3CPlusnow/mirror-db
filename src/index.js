@@ -25,6 +25,9 @@ const envContent = {
   readonlyPassword: envFileContent.READONLY_PASSWORD,
   readonlyUser: envFileContent.READONLY_USER,
   ignoreSetup: envFileContent.IGNORE_SETUP || false,
+  sslCa: envFileContent.SSL_CA ? fs.readFileSync(envFileContent.SSL_CA) : false,
+  sslCert: envFileContent.SSL_CERT ? fs.readFileSync(envFileContent.SSL_CERT) : false,
+  sslKey: envFileContent.SSL_KEY ? fs.readFileSync(envFileContent.SSL_KEY) : false,
 
   socketEventEnabled: envFileContent.SOCKET_EVENT_ENABLED || 'call_history,work_break_history,login_history,chat_history',
 }

@@ -7,11 +7,21 @@ class MySQLProvider extends IDatabaseProvider {
   constructor(dbConfig, envContent) {
     super();
     this.env = envContent;
-    this.dbConfig = dbConfig;
+    this.dbConfig = { ...dbConfig };
     this.pool = null;
   }
 
   async connect() {
+    if (this.env.sslCa) {
+      this.dbConfig.ssl = {
+        ca: this.env.sslCa,
+        ...(this.env.sslCert ? { cert: this.env.sslCert } : {}),
+        ...(this.env.sslKey ? { key: this.env.sslKey } : {}),
+      };
+    }
+
+    console.log('Db config mysql: ', JSON.stringify(this.dbConfig));
+
     return this.pool = mysql.createPool(this.dbConfig);
   }
 
@@ -42,7 +52,7 @@ class MySQLProvider extends IDatabaseProvider {
     }
   }
 
-  async createTable(tableName = 'call_history', tableSchema=CallHistorySchema) {
+  async createTable(tableName = 'call_history', tableSchema = CallHistorySchema) {
     const checkTableQuery = `
       SELECT table_name
       FROM information_schema.tables
